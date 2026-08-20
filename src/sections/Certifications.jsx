@@ -1,5 +1,6 @@
 import SectionWrapper from '../components/SectionWrapper'
 import { certifications } from '../content/certifications'
+import ImageWithFallback from '../components/ImageWithFallback'
 
 export default function Certifications() {
   return (
@@ -36,10 +37,12 @@ export default function Certifications() {
               {/* Certificate image */}
               {cert.image && (
                 <div className="h-40 overflow-hidden">
-                  <img
+                  <ImageWithFallback
                     src={cert.image}
                     alt={`${cert.name} certificate`}
-                    className="w-full h-full object-cover object-top border-b border-[#1e2d3d]"
+                    label={cert.image.split('/').pop()}
+                    className="w-full h-full"
+                    imgClassName="w-full h-full object-cover object-top border-b border-[#1e2d3d]"
                   />
                 </div>
               )}

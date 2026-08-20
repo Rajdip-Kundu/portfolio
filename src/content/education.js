@@ -16,7 +16,7 @@ export const education = [
   },
   {
     id: 'class-xii',
-    degree: 'Class XII — CBSE',
+    degree: 'Class XII — WBCHSE',
     institution: 'Calcutta Airport English High School',
     location: 'Kolkata, West Bengal',
     year: '2025',
@@ -28,7 +28,7 @@ export const education = [
   },
   {
     id: 'class-x',
-    degree: 'Class X — CBSE',
+    degree: 'Class X — WBBSE',
     institution: 'Calcutta Airport English High School',
     location: 'Kolkata, West Bengal',
     year: '2023',
