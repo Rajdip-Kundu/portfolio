@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, lazy, Suspense } from 'react'
+import { useRef, useState, useCallback, lazy, Suspense, Component } from 'react'
 import './styles/globals.css'
 
 import Navigation      from './components/Navigation'
@@ -18,6 +18,21 @@ import Footer          from './sections/Footer'
 
 // Lazy-load the heavy 3D scene
 const RocketScene = lazy(() => import('./3d/RocketScene'))
+
+/* ─── Error Boundary for Three.js / WebGL errors ────────── */
+class RocketErrorBoundary extends Component {
+  constructor(props) { super(props); this.state = { crashed: false } }
+  static getDerivedStateFromError() { return { crashed: true } }
+  componentDidCatch(err) { console.warn('[RocketScene] WebGL/Three.js error — skipping 3D intro:', err) }
+  render() {
+    if (this.state.crashed) {
+      // Immediately trigger portfolio reveal bypassing the 3D sequence
+      if (this.props.onCrash) this.props.onCrash()
+      return null
+    }
+    return this.props.children
+  }
+}
 
 /* ─── Smoke overlay ─────────────────────────────────────── */
 function SmokeOverlay({ opacity }) {
@@ -112,6 +127,14 @@ export default function App() {
     if (progress > 0.4)  setNavVisible(true)
   }, [])
 
+  const handleRocketCrash = useCallback(() => {
+    // WebGL crashed — skip the 3D intro and reveal portfolio immediately
+    setRevealProgress(1)
+    setPortfolioVisible(true)
+    setNavVisible(true)
+    setSmokeOpacity(0)
+  }, [])
+
   if (prefersReduced) return <ReducedMotionPortfolio />
 
   return (
@@ -126,9 +149,11 @@ export default function App() {
           transition: 'opacity 0.5s ease',
         }}
       >
-        <Suspense fallback={<LoadingSplash />}>
-          <RocketScene phase={phase} onSequenceComplete={handleSequenceComplete} />
-        </Suspense>
+        <RocketErrorBoundary onCrash={handleRocketCrash}>
+          <Suspense fallback={<LoadingSplash />}>
+            <RocketScene phase={phase} onSequenceComplete={handleSequenceComplete} />
+          </Suspense>
+        </RocketErrorBoundary>
       </div>
 
       {/* Smoke transition overlay */}

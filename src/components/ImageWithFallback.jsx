@@ -1,17 +1,20 @@
 import { useState } from 'react'
+import { assetUrl } from '../utils/assetUrl'
 
 /**
  * ImageWithFallback
  * Renders a real image if it loads, or a styled aerospace placeholder if it doesn't.
  * Never shows a broken-image icon.
+ * Automatically prepends BASE_URL so images work on GitHub Pages /portfolio/ subpath.
  *
  * Props:
- *   src      — path to the image (e.g. /images/profile/profile-main.jpg)
- *   alt      — alt text
- *   label    — short description shown in placeholder (e.g. "profile-main.jpg")
- *   folder   — folder path shown in placeholder (e.g. "images/profile/")
+ *   src       — path to the image (e.g. /images/profile/profile-main.jpg)
+ *   alt       — alt text
+ *   label     — short description shown in placeholder (e.g. "profile-main.jpg")
+ *   folder    — folder path shown in placeholder (e.g. "images/profile/")
  *   className — additional Tailwind classes
- *   style    — additional inline styles
+ *   imgClassName — additional classes on the <img> element (e.g. object-contain)
+ *   style     — additional inline styles
  */
 export default function ImageWithFallback({
   src,
@@ -24,6 +27,9 @@ export default function ImageWithFallback({
 }) {
   const [failed, setFailed] = useState(false)
   const [loaded, setLoaded] = useState(false)
+
+  // Apply base URL prefix for production GitHub Pages deployment
+  const resolvedSrc = assetUrl(src)
 
   if (!src || failed) {
     return (
@@ -86,7 +92,7 @@ export default function ImageWithFallback({
         />
       )}
       <img
-        src={src}
+        src={resolvedSrc}
         alt={alt}
         onError={() => setFailed(true)}
         onLoad={() => setLoaded(true)}
