@@ -1,4 +1,4 @@
-import { useRef, useMemo, useCallback } from 'react'
+import { useRef, useMemo, useCallback, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Stars } from '@react-three/drei'
 import * as THREE from 'three'
@@ -551,14 +551,16 @@ export default function RocketScene({ phase, onSequenceComplete }) {
     }
   }, [phase, onSequenceComplete])
 
-  // Start on mount
-  const started = useRef(false)
-  if (!started.current && typeof window !== 'undefined') {
-    started.current = true
-    setTimeout(() => {
+  // Start rAF loop in useEffect (safe: runs only after mount, not during render)
+  useEffect(() => {
+    const timer = setTimeout(() => {
       animRef.current = requestAnimationFrame(tick)
     }, 400)
-  }
+    return () => {
+      clearTimeout(timer)
+      if (animRef.current) cancelAnimationFrame(animRef.current)
+    }
+  }, [tick])
 
   return (
     <Canvas

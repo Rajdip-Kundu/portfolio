@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, lazy, Suspense, Component } from 'react'
+import { useRef, useState, useCallback, lazy, Suspense, Component, useEffect } from 'react'
 import './styles/globals.css'
 
 import Navigation      from './components/Navigation'
@@ -133,6 +133,20 @@ export default function App() {
     setPortfolioVisible(true)
     setNavVisible(true)
     setSmokeOpacity(0)
+  }, [])
+
+  // ── Safety net ───────────────────────────────────────────────
+  // If the 3D sequence never fires onSequenceComplete (WebGL error,
+  // throttled rAF, slow GitHub Pages cold start), reveal the portfolio
+  // after 15 s so the page is NEVER permanently blank.
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setRevealProgress(1)
+      setPortfolioVisible(true)
+      setNavVisible(true)
+      setSmokeOpacity(0)
+    }, 15000)
+    return () => clearTimeout(timeout)
   }, [])
 
   if (prefersReduced) return <ReducedMotionPortfolio />
