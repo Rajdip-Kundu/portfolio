@@ -25,8 +25,11 @@ export default function Engagements() {
                 alt={item.title}
                 label={item.image.split('/').pop()}
                 folder={`images/engagements/`}
-                className={`h-40 w-full ${item.id === 'ncc-air-wing' ? 'bg-[#f0f4f8]' : ''}`}
-                imgClassName={item.id === 'ncc-air-wing' ? 'object-contain p-4' : 'object-cover'}
+                className={`h-40 w-full ${
+                  item.id === 'ncc-air-wing' ? 'bg-[#f0f4f8]' :
+                  item.id === 'dbf-main' ? 'bg-[#5baad4]' : 'bg-[#111111]'
+                }`}
+                imgClassName={item.id === 'ncc-air-wing' ? 'object-contain p-4' : 'object-contain'}
               />
             )}
 

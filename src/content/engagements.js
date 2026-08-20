@@ -17,7 +17,7 @@ students pursuing careers in the field.`,
     role: 'ML Team Member',
     period: 'May 2026 — Present',
     description: `Active member contributing to robotics design and autonomous systems development. Applied mechanical and aerospace engineering principles to physical hardware, integrating structural integrity with precision control mechanisms.Developing and managing machine learning models as a part of the research group`,
-    image: '/images/engagements/proboticist-main.jpg',
+    image: '/images/engagements/proboticist-main.png',
     tags: ['Robotics', 'Hardware', 'Control Systems', 'ROS', 'ML and Deep Learning'],
   },
   {
@@ -26,7 +26,7 @@ students pursuing careers in the field.`,
     role: 'Technical Member (Aerial Robotics Kharagpur)',
     period: 'June 2025 — Present',
     description: `Representing IIT Kharagpur at the AIAA Design/Build/Fly competition. Individually working under propulsion subsytem on buiding of Thrust Stand for different kind of motor and propeller testing.`,
-    image: '/images/engagements/dbf-main.jpg',
+    image: '/images/engagements/dbf-main.png',
     tags: ['AIAA DBF', 'Fixed-Wing', 'ANSYS', 'CFD'],
   }
 ]
